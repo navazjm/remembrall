@@ -1,0 +1,4 @@
+build/nob
+build/rmbrl
+build/*.o
+build/*.exe
