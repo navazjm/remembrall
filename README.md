@@ -18,11 +18,15 @@ doing. Add tasks to your memory, peek at what you're currently remembering, and 
 1. Start remembering what you were working on...
 
 ```sh
-rmbrl add "" # adds task
+rmbrl add "implement new feature" # adds memory to your collection
 ```
 
 ```sh
-rmbrl peek 
+rmbrl peek # prints most recent memory
+```
+
+```sh
+rmbrl clear # forget most recent memory
 ```
 
 Checkout [usage](#usage) for more details.
