@@ -94,7 +94,25 @@ static inline char *rmbrl_strdup(const char *str)
 
 void rmbrl_print_help()
 {
-    printf("help\n");
+    printf("Usage: program (COMMAND) [FLAGS]\n\n");
+
+    printf("Commands:\n");
+    printf("  add     Add memory to your collection (supports --project)\n");
+    printf("  peek    Show what you're currently remembering (supports --all, --project)\n");
+    printf("  clear   Forget memories (supports --all, --project)\n\n");
+
+    printf("Command Flags:\n");
+    printf("  -p, --project    Tag and filter memories by project name\n");
+    printf("                   (supported by: add, peek, clear)\n");
+    printf("  -a, --all        Apply operation to all memories\n");
+    printf("                   (supported by: peek, clear)\n\n");
+
+    printf("Global Flags:\n");
+    printf("  -h, --help       Show help information\n");
+    printf("  -V, --version    Show version information\n");
+    printf("  -v, --verbose    Enable verbose output\n");
+    printf("  -s, --silent     Enable silent mode\n");
+    printf("  -n, --dry-run    Perform dry run without making changes\n");
 }
 
 typedef enum
