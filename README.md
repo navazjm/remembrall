@@ -98,19 +98,17 @@ cl ./build/nob.c /Fe:./build/nob.exe
 **NOTE**: Flags support both `--flag value` and `--flag=value` syntax.
 
 ### Commands
-
 | Command | Flags                | Description |
 |---------|----------------------|-------------|
-| `add`   | `--project`          | Add task    |
-| `peek`  | `--all`, `--project` | Show tasks  |
-| `clear` | `--all`, `--project` | Clear tasks |
+| `add`   | `--project`          | Add memory to your collection    |
+| `peek`  | `--all`, `--project` | Show what you're currently remembering  |
+| `clear` | `--all`, `--project` | Forget memories |
 
 ### Command Flags
-
 | Flag        | Short | Supported Commands     | Description |
 |-------------|-------|------------------------|-------------|
-| `--project` | `-p`  | `add`, `peek`, `clear` | Tag and filter tasks by project name |
-| `--all`     | `-a`  | `peek`, `clear`        | Apply operation to all tasks |
+| `--project` | `-p`  | `add`, `peek`, `clear` | Tag and filter memories by project name |
+| `--all`     | `-a`  | `peek`, `clear`        | Apply operation to all memories |
 
 ### Global Flags
 
@@ -124,31 +122,31 @@ cl ./build/nob.c /Fe:./build/nob.exe
 
 ### Examples
 
-- Add task
+- Add memory to your collection
 
 ```sh
 rmbrl add "task description"
 ```
 
-- Show most recent task
+- Show most recent memory
 
 ```sh
 rmbrl peek
 ```
 
-- Show all tasks
+- Show all memories
 
 ```sh
 rmbrl peek --all
 ```
 
-- Clear most recent task
+- Forget most recent memory
 
 ```sh
 rmbrl clear
 ```
 
-- Clear all tasks
+- Forget all memories
 
 ```sh
 rmbrl clear --all
@@ -156,7 +154,7 @@ rmbrl clear --all
 
 #### Project Flag Examples
 
-Can think of this as adding a tag to easily filter tasks by project.
+Can think of this like adding a tag to easily filter tasks by project.
 
 ```sh
 rmbrl add --project lazypm "refactor filter proc"
