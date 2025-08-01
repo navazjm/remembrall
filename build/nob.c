@@ -115,7 +115,6 @@ int main(int argc, char **argv)
     if (install_rmbrl)
     {
 #if defined(_WIN32)
-        // copy .\build\rmbrl.exe to C:\Users\username\AppData\Roaming\rmbrl
         char *appdata = getenv("APPDATA");
         if (appdata == NULL)
         {
@@ -127,15 +126,12 @@ int main(int argc, char **argv)
         snprintf(rmbrl_path, sizeof(rmbrl_path), "%s\\rmbrl\\", appdata);
 
         char *install_path = rmbrl_path;
-        char *rmbrl_exe = BUILD_FOLDER "rmbrl.exe";
-        nob_cmd_append(&cmd, "copy", rmbrl_exe, install_path);
+        nob_cmd_append(&cmd, "cmd", "/c", "copy", "build\\rmbrl.exe", install_path);
 #else
-        // copy ./build/rmbrl to /usr/local/bin/
         char *install_path = "/usr/local/bin";
         char *rmbrl_exe = BUILD_FOLDER "rmbrl";
         nob_cmd_append(&cmd, "sudo", "cp", rmbrl_exe, install_path);
 
-        // create ~/.local/share/rmbrl (where we store rmbrl.db file)
         char *home_env = getenv("HOME");
         if (home_env == NULL)
         {
@@ -148,16 +144,16 @@ int main(int argc, char **argv)
 
 #endif // end _WIN32
 
-        nob_log(NOB_INFO, "Installing remembrall to \"%s\"", install_path);
-        if (!nob_cmd_run_sync_and_reset(&cmd))
+        // Windows - create path C:\Users\username\AppData\Roaming\rmbrl
+        // POSIX - create path /home/username/.local/share/rmbrl
+        if (!nob_mkdir_if_not_exists(rmbrl_path))
         {
             BUILD_FAILED_MSG
             return 1;
         }
 
-        // Windows - create path C:\Users\username\AppData\Roaming\rmbrl
-        // POSIX - create path /home/username/.local/share/rmbrl
-        if (!nob_mkdir_if_not_exists(rmbrl_path))
+        nob_log(NOB_INFO, "Installing remembrall to \"%s\"", install_path);
+        if (!nob_cmd_run_sync_and_reset(&cmd))
         {
             BUILD_FAILED_MSG
             return 1;
