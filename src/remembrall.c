@@ -689,7 +689,6 @@ int main(int argc, char **argv)
 
     char db_path[512];
 #ifdef _WIN32
-
     char *appdata = getenv("APPDATA");
     if (appdata == NULL)
     {
@@ -697,7 +696,7 @@ int main(int argc, char **argv)
         return 1;
     }
     snprintf(db_path, sizeof(db_path), "%s\\rmbrl\\", appdata);
-
+    int result = mkdir(db_path);
 #elif defined(__APPLE__) && defined(__MACH__)
 
     char *home_env = getenv("HOME");
@@ -707,7 +706,7 @@ int main(int argc, char **argv)
         return 1;
     }
     snprintf(db_path, sizeof(db_path), "%s/Library/Application Support/rmbrl/", home_env);
-
+    int result = mkdir(db_path, 0755);
 #elif defined(__linux__)
     char *home_env = getenv("HOME");
     if (home_env == NULL)
@@ -716,14 +715,13 @@ int main(int argc, char **argv)
         return 1;
     }
     snprintf(db_path, sizeof(db_path), "%s/.local/share/rmbrl/", home_env);
-
+    int result = mkdir(db_path, 0755);
 #else
     rmbrl_log(RMBRL_LOG_ERROR, "Running on an unknown operating system.\n");
     return 1;
 #endif
 
     // NOTE: db_path will already exist if user provided --install flag when building remembrall
-    int result = mkdir(db_path, 0755);
     if (result == -1 && errno != EEXIST)
     {
         rmbrl_log(RMBRL_LOG_ERROR, "Failed to create path: %s\nReason: %s\n", db_path,
