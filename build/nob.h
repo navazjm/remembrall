@@ -196,8 +196,8 @@
 #define _IMM_
 #define _WINCON_
 #include <direct.h>
-#include <shellapi.h>
 #include <windows.h>
+#include <shellapi.h>
 #else
 #include <fcntl.h>
 #include <sys/stat.h>

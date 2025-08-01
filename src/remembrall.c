@@ -10,6 +10,12 @@
 #include <string.h>
 #include <sys/stat.h>
 
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <direct.h>
+#include <windows.h>
+#endif
+
 #define RMBRL_VERSION "v0.1.0"
 
 #ifndef RMBRL_REALLOC
@@ -318,7 +324,7 @@ int rmbrl_command_add(Rmbrl_Command *cmd, sqlite3 *db)
 
     if (cmd->dry_run)
     {
-        int result = rmbrl_db_rollback_transaction(db, cmd->verbosity);
+        result = rmbrl_db_rollback_transaction(db, cmd->verbosity);
         if (result != 0)
             return result;
     }
@@ -538,7 +544,7 @@ int rmbrl_command_clear(Rmbrl_Command *cmd, sqlite3 *db)
 
     if (cmd->dry_run)
     {
-        int result = rmbrl_db_rollback_transaction(db, cmd->verbosity);
+        result = rmbrl_db_rollback_transaction(db, cmd->verbosity);
         if (result != 0)
             return result;
     }
@@ -682,7 +688,6 @@ int main(int argc, char **argv)
     }
 
     char db_path[512];
-
 #ifdef _WIN32
 
     char *appdata = getenv("APPDATA");
@@ -717,6 +722,7 @@ int main(int argc, char **argv)
     return 1;
 #endif
 
+    // NOTE: db_path will already exist if user provided --install flag when building remembrall
     int result = mkdir(db_path, 0755);
     if (result == -1 && errno != EEXIST)
     {
