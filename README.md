@@ -84,7 +84,7 @@ gcc ./build/nob.c -o ./build/nob
 ```
 
 ```sh
-./build/nob.exe --install
+build\nob.exe --install
 ```
 
 #### Windows (MSVC)
@@ -94,7 +94,7 @@ cl ./build/nob.c /Fe:./build/nob.exe /Fo:./build/nob.obj
 ```
 
 ```sh
-./build/nob.exe --install
+build\nob.exe --install
 ```
 
 ## Usage
