@@ -159,15 +159,40 @@ int main(int argc, char **argv)
             return 1;
         }
 
-#if defined(_WIN32)
-        // TODO: add rmbrl_path to PATH
-        // Problem: we cannot just append to %PATH% with setx as that would combine both system and
-        // user PATH
-        // Probably will need to use setx to get user-level path value and pipe to temp env var
-        // From there append rmbrl_path to user-level path using the temp env var as the placeholder
-        // for existing user-level path.
-        // Now, when %PATH% is used, it will have our rmbrl_path in the user-level path without
-        // duplicating system-level and user-level PATH.
+#if !defined(_WIN32)
+        // add install_path to windows user-level PATH env var...
+        nob_cmd_append(&cmd, "powershell", "-Command", "$userPath", "=",
+                       "[Environment]::GetEnvironmentVariable(\"PATH\",\"User\")");
+        if (!nob_cmd_run_sync_and_reset(&cmd))
+        {
+            BUILD_FAILED_MSG
+            return 1;
+        }
+
+        char install_path_quoted[512];
+        snprintf(install_path_quoted, sizeof(install_path_quoted), "\"%s\"", install_path);
+        nob_cmd_append(&cmd, "powershell", "-Command", "$newPath", "=", install_path_quoted);
+        if (!nob_cmd_run_sync_and_reset(&cmd))
+        {
+            BUILD_FAILED_MSG
+            return 1;
+        }
+
+        nob_cmd_append(&cmd, "powershell", "-Command", "$updatedPath", "=",
+                       "\"$userPath;$newPath\"");
+        if (!nob_cmd_run_sync_and_reset(&cmd))
+        {
+            BUILD_FAILED_MSG
+            return 1;
+        }
+
+        nob_cmd_append(&cmd, "powershell", "-Command",
+                       "[Environment]::SetEnvironmentVariable(\"PATH\",$updatedPath,\"User\")");
+        if (!nob_cmd_run_sync_and_reset(&cmd))
+        {
+            BUILD_FAILED_MSG
+            return 1;
+        }
 
 #endif
     }
