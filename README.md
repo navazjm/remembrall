@@ -97,6 +97,8 @@ cl ./build/nob.c /Fe:./build/nob.exe /Fo:./build/nob.obj
 build\nob.exe --install
 ```
 
+**IMPORTANT**: Windows users will need to manually add "%APPDATA%\rmbrl" to their PATH.
+
 ## Usage
 
 **NOTE**: Flags support both `--flag value` and `--flag=value` syntax.

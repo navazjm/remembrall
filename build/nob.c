@@ -168,6 +168,9 @@ int main(int argc, char **argv)
         // for existing user-level path.
         // Now, when %PATH% is used, it will have our rmbrl_path in the user-level path without
         // duplicating system-level and user-level PATH.
+        //
+        // Unfortunately, I do not have a windows machine to be able to implement and test this.
+        // So for now, users will have to manually add it their PATH.
 
 #endif
     }
